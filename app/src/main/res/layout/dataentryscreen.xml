@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--
+    <EditText
+        android:id="@+id/txt_subtask5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="53dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        app:layout_constraintEnd_toStartOf="@+id/cb_subtask5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_subtask4" />
+
+    <CheckedTextView
+        android:id="@+id/cb_subtask5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="203dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_subtask5"
+        app:layout_constraintTop_toBottomOf="@+id/cb_subtask4" />
+
+    <EditText
+        android:id="@+id/txt_subtask4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="18dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/txt_subtask5"
+        app:layout_constraintEnd_toStartOf="@+id/cb_subtask4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_subtask3" />
+
+    <CheckedTextView
+        android:id="@+id/cb_subtask4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/cb_subtask5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_subtask4"
+        app:layout_constraintTop_toBottomOf="@+id/cb_subtask3" />
+
+    <EditText
+        android:id="@+id/txt_subtask3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="19dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/txt_subtask4"
+        app:layout_constraintEnd_toStartOf="@+id/cb_subtask3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_subtask2" />
+
+    <CheckedTextView
+        android:id="@+id/cb_subtask3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/cb_subtask4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_subtask3"
+        app:layout_constraintTop_toBottomOf="@+id/cb_subtask2" />
+
+    <EditText
+        android:id="@+id/txt_subtask2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="17dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/txt_subtask3"
+        app:layout_constraintEnd_toStartOf="@+id/cb_subtask2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_subtask1" />
+
+    <CheckedTextView
+        android:id="@+id/cb_subtask2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/cb_subtask3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_subtask2"
+        app:layout_constraintTop_toBottomOf="@+id/cb_subtask1" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="100dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txt_subtask5"
+        app:layout_constraintTop_toBottomOf="@+id/txt_subtask5" />
+
+    <EditText
+        android:id="@+id/txt_mainTask"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="18dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Main Goal"
+        app:layout_constraintBottom_toTopOf="@+id/dte_expectedDate"
+        app:layout_constraintStart_toStartOf="@+id/lbl_maintask"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_maintask" />
+
+    <CheckedTextView
+        android:id="@+id/cb_subtask1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="229dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/cb_subtask2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_subtask1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/dte_expectedDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/lbl_subtask"
+        app:layout_constraintStart_toStartOf="@+id/txt_mainTask"
+        app:layout_constraintTop_toBottomOf="@+id/txt_mainTask" />
+
+    <TextView
+        android:id="@+id/lbl_subtask"
+        android:layout_width="124dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:text="SubTasks"
+        app:layout_constraintBottom_toTopOf="@+id/txt_subtask1"
+        app:layout_constraintStart_toStartOf="@+id/txt_subtask1"
+        app:layout_constraintTop_toBottomOf="@+id/dte_expectedDate" />
+
+    <EditText
+        android:id="@+id/txt_subtask1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="22dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/txt_subtask2"
+        app:layout_constraintEnd_toStartOf="@+id/cb_subtask1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_subtask" />
+
+    <TextView
+        android:id="@+id/lbl_maintask"
+        android:layout_width="188dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="74dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="17dp"
+        android:text="Main Task"
+        app:layout_constraintBottom_toTopOf="@+id/txt_mainTask"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        layout="@layout/reusablebuttons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSave"
+        />
+        -->
+
+    <EditText
+        android:id="@+id/txtName"
+        android:layout_width="336dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="72dp"
+        android:ems="10"
+        android:inputType="textShortMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:onClick="save"
+        android:text="Ignore Me"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/txtName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/txtName"
+        app:layout_constraintTop_toBottomOf="@+id/txtName" />
+</android.support.constraint.ConstraintLayout>
