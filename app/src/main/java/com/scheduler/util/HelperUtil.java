@@ -1,11 +1,17 @@
 package com.scheduler.util;
 
 import android.app.Activity;
+import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.View;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class HelperUtil  {
     public static void CopyDB(InputStream inputStream, OutputStream outputStream) throws IOException
@@ -19,6 +25,59 @@ public class HelperUtil  {
         }
         inputStream.close();
         outputStream.close();
+    }
+
+    public static boolean  isEmpty(EditText txtValue)
+    {
+        if (txtValue.getText().toString() == "" || txtValue.getText().toString().length() == 0)
+            return true;
+        else
+            return false;
+    }
+    public static boolean isEmpty(CheckBox txtValue)
+    {
+        if (txtValue.getText().toString() == "" || txtValue.getText().toString().length() == 0)
+            return true;
+        else
+            return false;
+    }
+    public static boolean isEmpty(TextView txtValue)
+    {
+        if (txtValue.getText().toString() == "" || txtValue.getText().toString().length() == 0 || txtValue.getText().toString() == "0")
+            return true;
+        else
+            return false;
+    }
+    public static boolean getBoolValue(int txtValue)
+    {
+        try {
+            if (txtValue == 0) {
+
+                return false;
+            }
+            else return true;
+        }
+        catch(Exception e)
+        {
+            Log.e("dataactivity",e.getMessage());
+        }
+        return false;
+    }
+
+    public static int getIntValue(CheckBox txtValue)
+    {
+        int boolValue = 0;
+
+        try {
+            if ( txtValue.isChecked() == false)
+                return boolValue;
+            else return 1;
+        }
+        catch(Exception e)
+        {
+            Log.e("dataactivity",e.getMessage());
+        }
+        return boolValue;
     }
 
 }

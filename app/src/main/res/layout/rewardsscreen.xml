@@ -1,9 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TableRow   android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/txtView"
+            android:layout_column="2"
+            android:fontFamily="sans-serif-black"  android:textSize="24sp"
+            android:text="Rewards Screen"
+            />
+    </TableRow>
+
+    <TableRow  >
+
+
+        <ImageView
+            android:id="@+id/badge_0"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:src="@drawable/badge_0"
+            android:maxHeight="20px"
+            android:maxWidth="20px"
+            android:layout_column="1" android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/txt_task0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:width="400px"
+            android:fontFamily="sans-serif-black"  android:textSize="18sp"
+            android:text=""
+              />
+    </TableRow>
+
+    <TableRow>
+    <!-- 1 -->
+        <ImageView
+            android:id="@+id/badge_1"
+            android:layout_width="100px"
+            android:layout_height="100px"  android:visibility="invisible"
+            android:src="@drawable/badge_1" android:maxHeight="20px" android:maxWidth="20px"
+            android:layout_column="1"
+            />
+        <TextView android:id="@+id/txt_task1"  android:inputType="text"  android:fontFamily="sans-serif-black"  android:textSize="18sp" android:width="400px" android:layout_column="2"    />
+    </TableRow>
+
+    <!-- 2 -->
+    <TableRow>
+        <ImageView
+            android:id="@+id/badge_2"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:src="@drawable/badge_2"  android:visibility="invisible"
+            android:maxHeight="20px" android:maxWidth="20px"
+            android:layout_column="1"
+            />
+        <TextView android:id="@+id/txt_task2"  android:inputType="text"  android:width="400px" android:layout_column="2"  android:fontFamily="sans-serif-black"  android:textSize="18sp" />
+    </TableRow>
+
+    <!-- 3-->
+    <TableRow>
+        <ImageView
+            android:id="@+id/badge_3"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:src="@drawable/badge_3"  android:visibility="invisible"
+            android:maxHeight="20px" android:maxWidth="20px"
+            android:layout_column="1"
+            />
+        <TextView android:id="@+id/txt_task3" android:inputType="text"   android:layout_column="2"  android:width="400px"  android:fontFamily="sans-serif-black"  android:textSize="18sp" />
+
+    </TableRow>
+
+    <!-- 4 -->
+    <TableRow>
+        <ImageView
+            android:id="@+id/badge_4"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:src="@drawable/badge_4"  android:visibility="invisible"
+            android:maxHeight="20px" android:maxWidth="20px"
+            android:layout_column="1"
+            />
+        <TextView  android:id="@+id/txt_task4" android:inputType="text"   android:width="400px" android:layout_column="2"  android:fontFamily="sans-serif-black"  android:textSize="18sp" />
+
+    </TableRow>
+
+    <!-- 5 -->
+    <TableRow>
+        <ImageView
+            android:id="@+id/badge_5"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:src="@drawable/badge_5"  android:visibility="invisible"
+            android:maxHeight="20px" android:maxWidth="20px"
+            android:layout_column="1"
+            />
+        <TextView android:id="@+id/txt_task5" android:inputType="text"  android:width="400px" android:layout_column="2"  android:fontFamily="sans-serif-black"  android:textSize="18sp" />
+
+    </TableRow>
+    <TableRow   android:layout_width="fill_parent" android:layout_height="fill_parent">
+    </TableRow>
+
+    <TableRow   android:layout_width="fill_parent" android:layout_height="fill_parent">
+    </TableRow>
+    <TableRow   android:layout_width="fill_parent" android:layout_height="fill_parent">
+       <!-- <Button
+            android:id="@+id/btnDelete"
+            android:onClick="delete"
+            android:text="Delete All" android:layout_column="2"
+            /> -->
+        <TextView android:text="Icons provided by CC 3.0 BY" android:layout_column="2"/>
+    </TableRow>
+</TableLayout>

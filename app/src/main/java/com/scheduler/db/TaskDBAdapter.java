@@ -67,10 +67,29 @@ public class TaskDBAdapter {
         return this;
     }
 
+    public TaskDBAdapter openRead() throws SQLException
+    {
+        db = DBHelper.getReadableDatabase();
+        return this;
+    }
+
     //---closes the database---
     public void close()
     {
         DBHelper.close();
+    }
+
+    public void updateParentCompleted(long id, int completed_bool)
+    {
+        db.update("task",
+                getContent( completed_bool ),
+                "id =" + id, null)  ;
+    }
+    private ContentValues getContent(  int completed_bool )
+    {
+        ContentValues dbRow = new ContentValues();
+        dbRow.put("completed_bool", completed_bool);
+        return dbRow;
     }
 
     private ContentValues getContent(long parentid, String taskname,

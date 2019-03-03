@@ -20,12 +20,12 @@
         android:layout_height="wrap_content"
         />
 
+
+        <CheckBox android:width="20px"  android:id="@+id/cb_task0" android:enabled="false"  android:layout_column="3" />
         <TextView
             android:id="@+id/id_task0"
             android:layout_column="3"
-            android:width="15px"
-            android:text="00" />
-        <CheckBox android:width="20px"  android:id="@+id/cb_task0" android:enabled="false" android:visibility="invisible"  android:layout_column="3" />
+            android:text="0" android:visibility="invisible"  />
         <!--
         <EditText  android:id="@+id/dte_expectedDate"  android:inputType="date"    android:layout_column="3" />
             -->
@@ -36,7 +36,7 @@
     <TextView  android:id="@+id/lbl_task"   android:text="1"    android:layout_column="1"  />
           <EditText android:id="@+id/txt_task1"  android:inputType="text"  android:width="400px" android:layout_column="2"    />
         <CheckBox  android:layout_width="wrap_content"   android:layout_height="wrap_content" android:id="@+id/cb_task1"  android:layout_column="3" />
-         <TextView   android:id="@+id/id_task1"    android:layout_column="3"   android:width="45px"  android:text="00" />
+         <TextView   android:id="@+id/id_task1"    android:layout_column="3"   android:width="45px"  android:text="0" android:visibility="invisible" />
     </TableRow>
 
     <!-- 2 -->
@@ -44,7 +44,7 @@
         <TextView android:text="2"   android:layout_column="1" />
         <EditText   android:id="@+id/txt_task2"  android:inputType="text"  android:width="400px" android:layout_column="2"  />
         <CheckBox  android:layout_width="wrap_content"   android:layout_height="wrap_content" android:id="@+id/cb_task2"   android:layout_column="3"  />
-        <TextView android:visibility="visible" android:id="@+id/id_task2"   android:layout_column="3"   android:width="45px"  />
+        <TextView android:visibility="invisible" android:id="@+id/id_task2"   android:layout_column="3"   android:width="45px"  />
     </TableRow>
 
     <!-- 3-->
@@ -76,6 +76,22 @@
 
     </TableRow>
 
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:id="@+id/btnSave"
+            android:onClick="save"
+            android:text="Save" android:layout_column="2"
+            />
+        <Button
+            android:id="@+id/btnDelete"
+            android:onClick="delete"
+            android:text="Delete All" android:layout_column="3"
+            />
+    </TableRow>
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -85,19 +101,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSave"
         />
-        -->
+        <Button
+            android:id="@+id/btn_data_entry"
+            android:onClick="showDataEntry"
+            android:text="Entry" android:layout_column="2"
+            />
 
+        -->
         <Button
-            android:id="@+id/btnSave"
-            android:onClick="save"
-            android:text="Save" android:layout_column="2"
+            android:id="@+id/btn_rewards"
+            android:onClick="showRewards"
+            android:text="Rewards" android:layout_column="2"
             />
-    </TableRow>
-    <TableRow>
-        <Button
-            android:id="@+id/btnDelete"
-            android:onClick="delete"
-            android:text="Delete All" android:layout_column="2"
-            />
+
     </TableRow>
 </TableLayout>
