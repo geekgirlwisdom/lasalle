@@ -20,8 +20,12 @@
         android:layout_height="wrap_content"
         />
 
-        <TextView android:id="@+id/id_task0"  android:width="5px"  android:layout_column="3" />
-        <CheckBox android:width="20px"  android:id="@+id/cb_task0" android:enabled="false"  android:layout_column="3" />
+        <TextView
+            android:id="@+id/id_task0"
+            android:layout_column="3"
+            android:width="15px"
+            android:text="00" />
+        <CheckBox android:width="20px"  android:id="@+id/cb_task0" android:enabled="false" android:visibility="invisible"  android:layout_column="3" />
         <!--
         <EditText  android:id="@+id/dte_expectedDate"  android:inputType="date"    android:layout_column="3" />
             -->
@@ -32,16 +36,15 @@
     <TextView  android:id="@+id/lbl_task"   android:text="1"    android:layout_column="1"  />
           <EditText android:id="@+id/txt_task1"  android:inputType="text"  android:width="400px" android:layout_column="2"    />
         <CheckBox  android:layout_width="wrap_content"   android:layout_height="wrap_content" android:id="@+id/cb_task1"  android:layout_column="3" />
-        <TextView  android:id="@+id/id_task1"   android:width="5px"  android:layout_column="3"  />
+         <TextView   android:id="@+id/id_task1"    android:layout_column="3"   android:width="45px"  android:text="00" />
     </TableRow>
 
     <!-- 2 -->
     <TableRow>
         <TextView android:text="2"   android:layout_column="1" />
         <EditText   android:id="@+id/txt_task2"  android:inputType="text"  android:width="400px" android:layout_column="2"  />
-        <CheckBox  android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/cb_task2"   android:layout_column="3"  />
-        <TextView android:visibility="invisible" android:id="@+id/id_task2" />
+        <CheckBox  android:layout_width="wrap_content"   android:layout_height="wrap_content" android:id="@+id/cb_task2"   android:layout_column="3"  />
+        <TextView android:visibility="visible" android:id="@+id/id_task2"   android:layout_column="3"   android:width="45px"  />
     </TableRow>
 
     <!-- 3-->
