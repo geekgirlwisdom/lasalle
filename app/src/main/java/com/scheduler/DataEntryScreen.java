@@ -47,15 +47,13 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
              db.open();
 
             Cursor c = db.getAllData();
-            alert("get recent parent " + c.getCount());
             if (c.moveToFirst())
-            alert("parent value is " + c.getLong( c.getColumnIndex("parentid")));
-            if (c != null)
-                DisplayParent(c);
-/*
-            Cursor c = db.getAllTasks( db.getRecentParentid());//db.getAllData();
+                if (c != null)
+                    DisplayParent(c);
 
-            int ii=0;
+             c = db.getSubtasks( parentid );//db.getAllData();
+
+            int ii=1;
             if (c.moveToFirst())
             {
                 do {
@@ -64,7 +62,7 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
                 } while (c.moveToNext());
             }
 
-*/
+
            // db.close();*/
         }
         catch (Exception e)
@@ -118,13 +116,11 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
 
             if (  taskname != null &&  taskname != "" )
             {
-                alert("id is " + c.getInt(0));
+
                 txt_task.setText(taskname);
                 id_task.setText(Integer.toString(c.getInt(0)));
                 cb_task.setChecked( getBoolValue(c.getInt(c.getColumnIndex("completed_bool"))) );
 
-                if (  i==0)
-                    parentid=c.getInt(0);
             }
         }
         catch(Exception e) {
@@ -141,9 +137,9 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             {
                 case R.id.btnSave:
                     saveParent();
-                     /*for (int i=0;  i <=5; i++) {
+                      for (int i=1;  i <=5; i++) {
                          save(  i);
-                     }*/
+                     }
                     break;
                 case R.id.btnDelete:
                         db.deleteAllTasks();
@@ -177,7 +173,7 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
     }
     boolean isEmpty(TextView txtValue)
     {
-        if (txtValue.getText().toString() == "" || txtValue.getText().toString().length() == 0)
+        if (txtValue.getText().toString() == "" || txtValue.getText().toString().length() == 0 || txtValue.getText().toString() == "0")
             return true;
         else
             return false;
@@ -239,11 +235,11 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
 
                     if (id == 0)
                 {
-                        id = db.insertParentTask(  txt_task.getText().toString(), "", "",  getIntValue(cb_task) );
+                        id = db.insertTask( 999, txt_task.getText().toString(), "", "",  getIntValue(cb_task) );
                         id_task.setText( Long.toString( id));
                         parentid = id;
                     } else
-                        db.update(parentid, txt_task.getText().toString(), "", "",   getIntValue(cb_task),true);
+                        db.update(parentid, 999,txt_task.getText().toString(), "", "",   getIntValue(cb_task));
 
 
 
@@ -274,20 +270,20 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
                         id = Long.valueOf(id_task.getText().toString());
 
 
-                  /*  if (isEmpty(txt_task) && (!isEmpty(id_task))) {
-                        db.deleteTask(Long.valueOf(id_task.getText().toString()));
-                        id_task.setText("");
-                    } */
-                    if (!isEmpty(txt_task) && (isEmpty(id_task))) {
+                    if (!isEmpty(txt_task) && id == 0) {
                         id = db.insertTask(parentid, txt_task.getText().toString(), "", "",  getIntValue(cb_task));
-                        id_task.setText(  Long.toString( id  )  );
+                         id_task.setText(  Long.toString( id  )  );
                     }
-                    if (!isEmpty(txt_task) && (!isEmpty(id_task))) {
+                    if (id > 0)
+                    {
+                        if (isEmpty(txt_task))
+                            db.deleteTask(id);
+                        else
                         db.update(id, parentid, txt_task.getText().toString(), "", "",   getIntValue(cb_task));
                     }
 
 
-                    alert("saved");
+                     alert("saved");
 
         }
         catch(Exception e)
@@ -296,9 +292,8 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             e.printStackTrace();
         }
      }
-     public void alert(String msg)
-     {
-         txtView.setText(msg);
-         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
-     }
+    public  void alert(String msg)
+    {
+        Toast.makeText( this, msg,Toast.LENGTH_SHORT).show();
+    }
 }
