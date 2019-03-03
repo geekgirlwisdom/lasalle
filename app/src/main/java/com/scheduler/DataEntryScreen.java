@@ -10,97 +10,105 @@ import android.widget.Button;
 import android.widget.*;
 import android.database.*;
 import com.scheduler.db.*;
-import com.scheduler.logic.*;
+import com.scheduler.util.HelperUtil;
 
 import java.io.*;
 
 public class DataEntryScreen extends  Activity implements View.OnClickListener {
     Button btnSave;
-    EditText txtName;
-    TextView txtView;
+    TaskDBAdapter db;
+    long parentid=0;
+    TextView txtView  ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dataentryscreen);
-        TaskDBAdapter db = new TaskDBAdapter(this);
-
-        btnSave = (Button)findViewById(R.id.btnSave);
-        txtName = (EditText)findViewById(R.id.txtName);
-
         try
         {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.dataentryscreen);
+
+            db = new TaskDBAdapter(this);
+            btnSave = (Button)findViewById(R.id.btnSave);
+            btnSave.setOnClickListener(  this);
+            txtView = (TextView)findViewById(R.id.txtView);
             String destPath = "/data/data/" + getPackageName() +   "/databases";
-            txtName.setText(destPath);
             File f = new File(destPath);
             if (!f.exists())
             {
                 f.mkdirs();
                 f.createNewFile();
-                CopyDB(getBaseContext().getAssets().open("mydb"),  new FileOutputStream(destPath + "/MyDB"));
+                HelperUtil.CopyDB(getBaseContext().getAssets().open("mydb"),  new FileOutputStream(destPath + "/MyDB"));
             }
              db.open();
+            alert("starting");
+            Toast.makeText(this,"hh",Toast.LENGTH_LONG);
 
-             long id = db.insertTask(00, "Main Task", "","",0  );
-            db.insertTask(id, "Sub Task 1", "","",1  );
-            db.insertTask(id, "Sub Task 2", "","",0 );
-            db.insertTask(id, "Sub Task 3", "","",0  );
-
-           // Cursor c = db.getAllData();
-            Cursor c= db.getSubtasks(id);
-            txtName.setText("Total tasks: " + db.getTotalSubtaskCount(id) + " for the parentid of " +id   );
+            Cursor c = db.getAllData();
+            int ii=0;
             if (c.moveToFirst())
             {
-                 do {
-                   DisplayTask(c);
+                do {
+                    alert("starting the stuff" +ii);
+                    DisplayTask(c,ii);
+                    ii++;
                 } while (c.moveToNext());
             }
-            db.close();
+
+
+           // db.close();*/
         }
         catch (Exception e)
         {
-            Log.e("dataentry",e.getMessage());
+            Log.d("dataentry",e.getMessage());
+            e.printStackTrace();
         }
+     }
 
 
+    public void DisplayTask(Cursor c, int i) {
+        try
+        {
+            EditText txt_task;
+            TextView id_task;
+            CheckBox cb_task;
 
-       // btnSave.setOnClickListener(  this);
-    }
+            long id=0;
+            String taskname = "";
 
-    public void CopyDB(InputStream inputStream,
-                       OutputStream outputStream) throws IOException {
-        //---copy 1K bytes at a time---
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, length);
-        }
-        inputStream.close();
-        outputStream.close();
-    }
+            txt_task = (EditText)findViewById( getResources().getIdentifier(  "txt_task"+i, "id", getPackageName())  );
+            id_task = (TextView)findViewById( getResources().getIdentifier(  "id_task"+i, "id", getPackageName())  );
+            cb_task = (CheckBox)findViewById( getResources().getIdentifier(  "cb_task"+i, "id", getPackageName())  );
+            taskname = c.getString(c.getColumnIndex("taskname"))  ;
 
-    public void DisplayTask(Cursor c) {
-        try {
-             Toast.makeText(this,
-                    "id: " + c.getInt(0) + "\n" +
-                            "parentid: " + c.getInt(1) + "\n" +
-                            "taskname:  " + c.getString(2),
-                    Toast.LENGTH_LONG).show();
+                    alert(taskname + " task , ctr: " + i + ", tot cursor count " + c.getCount());
+            if (  taskname != null &&  taskname != "" )
+            {
+                txt_task.setText(c.getString(2));
+                id_task.setText(c.getInt(0));
+                cb_task.setText( c.getInt(c.getColumnIndex("completed_bool")) );
+                if (  i==0)
+                    parentid=c.getInt(0);
 
+            }
         }
         catch(Exception e) {
-            Log.e("dataentry",e.getMessage());
+            Log.d("dataentry",e.getMessage());
+            e.printStackTrace();
         }
 
     }
     public void onClick(View view)
     {
-        try {
+        try
+        {
             switch (view.getId())
             {
                 case R.id.btnSave:
-                    save();
+                     for (int i=0;  i <=6; i++) {
+                         alert("save " + i);
+                         save(  i);
+                     }
                     break;
                 case R.id.btn_data_entry:
                     //showDataEntry(view);
@@ -115,12 +123,81 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             Log.d("ActivityInterface",e.getMessage());
         }
     }
-    public void save()
+    boolean isEmpty(EditText txtValue)
     {
-        TaskDBAdapter taskdb = new TaskDBAdapter(this );
-        taskdb.open();
-         long id = taskdb.insertTask(0, "test", "0000",  "0000",  0);
-
-        txtName.setText("WORKS " +  id);
+        if (txtValue.getText().toString() == "")
+            return true;
+        else
+            return false;
     }
+    boolean isEmpty(CheckBox txtValue)
+    {
+        if (txtValue.getText().toString() == "")
+            return true;
+        else
+            return false;
+    }
+    boolean isEmpty(TextView txtValue)
+    {
+        if (txtValue.getText().toString() == "")
+            return true;
+        else
+            return false;
+    }
+    public void save(int i)
+    {
+         EditText txt_task;
+        TextView id_task;
+        CheckBox cb_task;
+        long id=0;
+
+        txt_task = (EditText)findViewById( getResources().getIdentifier(  "txt_task"+i, "id", getPackageName())  );
+        id_task = (TextView)findViewById( getResources().getIdentifier(  "id_task"+i, "id", getPackageName())  );
+        cb_task = (CheckBox)findViewById( getResources().getIdentifier(  "cb_task"+i, "id", getPackageName())  );
+
+        if (!isEmpty(id_task))
+            id = Long.valueOf(id_task.getText().toString());
+
+        if (i== 0)
+        {
+            if (isEmpty(txt_task)  )
+                Toast.makeText(this, "Please complete the overarching goal", Toast.LENGTH_SHORT);
+            else
+            {
+                if (isEmpty(id_task))
+                {
+                    id = db.insertTask(00, txt_task.getText().toString(), "","",0  );
+                    id_task.setText((int)id);
+                    parentid=id;
+                }
+                else
+                     db.update(parentid,00,txt_task.getText().toString(),"","",0);
+
+            }
+        }
+        else
+        {
+            if (isEmpty(txt_task) && (!isEmpty(id_task)))
+            {
+                db.deleteTask(Long.valueOf(id_task.getText().toString()));
+                id_task.setText("");
+            }
+            if (!isEmpty(txt_task) && (isEmpty(id_task)))
+            {
+                id = db.insertTask(parentid, txt_task.getText().toString(), "","", Integer.valueOf(cb_task.getText().toString()  ));
+                id_task.setText((int)id);
+            }
+            if (!isEmpty(txt_task) && (!isEmpty(id_task)))
+            {
+                db.update(id,parentid,txt_task.getText().toString(),"","",0);
+            }
+            alert("updated");
+        }
+     alert("save");
+     }
+     public void alert(String msg)
+     {
+         txtView.setText(msg);
+         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+     }
 }
