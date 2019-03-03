@@ -1,7 +1,4 @@
 package com.scheduler.db;
-
-
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -116,11 +113,23 @@ public class TaskDBAdapter {
     {
         return db.delete(DATABASE_TABLE,  "id=" + id, null) > 0;
     }
+    public boolean deleteAllTasks()
+    {
+        return db.delete(DATABASE_TABLE,  null, null) > 0;
+    }
 
-    //---retrieves a particular contact---
     public Cursor getTask(long id) throws SQLException
     {
         Cursor mCursor = db.rawQuery("select * from task where id =" +id +";",null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+    public Cursor getAllTasks(long id) throws SQLException
+    {
+        Cursor mCursor = db.rawQuery("select distinct * from task where id =" +id +" or parentid=" + id +" order by id asc;",null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();

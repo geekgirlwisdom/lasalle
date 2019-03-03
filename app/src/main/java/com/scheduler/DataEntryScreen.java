@@ -16,6 +16,7 @@ import java.io.*;
 
 public class DataEntryScreen extends  Activity implements View.OnClickListener {
     Button btnSave;
+    Button btnDelete;
     TaskDBAdapter db;
     long parentid=0;
     TextView txtView  ;
@@ -31,6 +32,9 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             db = new TaskDBAdapter(this);
             btnSave = (Button)findViewById(R.id.btnSave);
             btnSave.setOnClickListener(  this);
+            btnDelete = (Button)findViewById(R.id.btnDelete);
+            btnDelete.setOnClickListener(  this);
+
             txtView = (TextView)findViewById(R.id.txtView);
             String destPath = "/data/data/" + getPackageName() +   "/databases";
             File f = new File(destPath);
@@ -44,12 +48,11 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             alert("starting");
             Toast.makeText(this,"hh",Toast.LENGTH_LONG);
 
-            Cursor c = db.getAllData();
+            Cursor c = db.getAllTasks(0);//db.getAllData();
             int ii=0;
             if (c.moveToFirst())
             {
                 do {
-                    alert("starting the stuff" +ii);
                     DisplayTask(c,ii);
                     ii++;
                 } while (c.moveToNext());
@@ -81,11 +84,12 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             cb_task = (CheckBox)findViewById( getResources().getIdentifier(  "cb_task"+i, "id", getPackageName())  );
             taskname = c.getString(c.getColumnIndex("taskname"))  ;
 
-                    alert(taskname + " task , ctr: " + i + ", tot cursor count " + c.getCount());
+                   // alert(taskname + " task , ctr: " + i + ", tot cursor count " + c.getCount());
             if (  taskname != null &&  taskname != "" )
             {
                 txt_task.setText(c.getString(2));
                 id_task.setText(c.getInt(0));
+                alert(Integer.toString(c.getInt(0))  );
                 cb_task.setText( c.getInt(c.getColumnIndex("completed_bool")) );
                 if (  i==0)
                     parentid=c.getInt(0);
@@ -105,11 +109,14 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             switch (view.getId())
             {
                 case R.id.btnSave:
-                     for (int i=0;  i <=6; i++) {
+                     for (int i=0;  i <=5; i++) {
                          alert("save " + i);
                          save(  i);
                      }
                     break;
+                case R.id.btnDelete:
+                        db.deleteAllTasks();
+                     break;
                 case R.id.btn_data_entry:
                     //showDataEntry(view);
                     break;
@@ -151,49 +158,53 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
         CheckBox cb_task;
         long id=0;
 
-        txt_task = (EditText)findViewById( getResources().getIdentifier(  "txt_task"+i, "id", getPackageName())  );
-        id_task = (TextView)findViewById( getResources().getIdentifier(  "id_task"+i, "id", getPackageName())  );
-        cb_task = (CheckBox)findViewById( getResources().getIdentifier(  "cb_task"+i, "id", getPackageName())  );
-
-        if (!isEmpty(id_task))
-            id = Long.valueOf(id_task.getText().toString());
-
-        if (i== 0)
+        try
         {
-            if (isEmpty(txt_task)  )
-                Toast.makeText(this, "Please complete the overarching goal", Toast.LENGTH_SHORT);
+            txt_task = (EditText) findViewById(getResources().getIdentifier("txt_task" + i, "id", getPackageName()));
+            id_task = (TextView) findViewById(getResources().getIdentifier("id_task" + i, "id", getPackageName()));
+            cb_task = (CheckBox) findViewById(getResources().getIdentifier("cb_task" + i, "id", getPackageName()));
+
+            if (isEmpty(txt_task))
+                alert("Please complete the goal at line " + i);
             else
-            {
-                if (isEmpty(id_task))
                 {
-                    id = db.insertTask(00, txt_task.getText().toString(), "","",0  );
-                    id_task.setText((int)id);
-                    parentid=id;
-                }
-                else
-                     db.update(parentid,00,txt_task.getText().toString(),"","",0);
+                    if (!isEmpty(id_task))
+                        id = Long.valueOf(id_task.getText().toString());
 
+                    alert("id is " + id);
+                if (i == 0) {
+
+
+                    if (isEmpty(id_task)) {
+                        id = db.insertTask(00, txt_task.getText().toString(), "", "",  Integer.valueOf(cb_task.getText().toString()));
+                        id_task.setText((int) id);
+                        parentid = id;
+                    } else
+                        db.update(parentid, 00, txt_task.getText().toString(), "", "",  Integer.valueOf(cb_task.getText().toString()));
+
+
+                } else {
+                  /*  if (isEmpty(txt_task) && (!isEmpty(id_task))) {
+                        db.deleteTask(Long.valueOf(id_task.getText().toString()));
+                        id_task.setText("");
+                    } */
+                    if (!isEmpty(txt_task) && (isEmpty(id_task))) {
+                        id = db.insertTask(parentid, txt_task.getText().toString(), "", "", Integer.valueOf(cb_task.getText().toString()));
+                        id_task.setText((int) id);
+                    }
+                    if (!isEmpty(txt_task) && (!isEmpty(id_task))) {
+                        db.update(id, parentid, txt_task.getText().toString(), "", "",  Integer.valueOf(cb_task.getText().toString()));
+                    }
+
+                }
+                    alert("saved");
             }
         }
-        else
+        catch(Exception e)
         {
-            if (isEmpty(txt_task) && (!isEmpty(id_task)))
-            {
-                db.deleteTask(Long.valueOf(id_task.getText().toString()));
-                id_task.setText("");
-            }
-            if (!isEmpty(txt_task) && (isEmpty(id_task)))
-            {
-                id = db.insertTask(parentid, txt_task.getText().toString(), "","", Integer.valueOf(cb_task.getText().toString()  ));
-                id_task.setText((int)id);
-            }
-            if (!isEmpty(txt_task) && (!isEmpty(id_task)))
-            {
-                db.update(id,parentid,txt_task.getText().toString(),"","",0);
-            }
-            alert("updated");
+            Log.d("dataentry",e.getMessage());
+            e.printStackTrace();
         }
-     alert("save");
      }
      public void alert(String msg)
      {
