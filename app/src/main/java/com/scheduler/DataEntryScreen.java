@@ -284,7 +284,8 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
 
 
                      alert("saved");
-
+                if ( getIntValue(cb_task) == 0 )
+                    alert("Congratulations on completing subtask: " + txt_task.getText());
         }
         catch(Exception e)
         {
