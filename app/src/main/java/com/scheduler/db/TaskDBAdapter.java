@@ -73,10 +73,16 @@ public class TaskDBAdapter {
         DBHelper.close();
     }
 
-    private ContentValues getContent(long parentid, String taskname, String expected_enddate, String completed_date, int completed_bool )
+    private ContentValues getContent(long parentid, String taskname,
+                                     String expected_enddate,
+                                     String completed_date, int completed_bool,
+                                     boolean isParent)
     {
         ContentValues dbRow = new ContentValues();
-        dbRow.put("parentid", parentid);
+        if (isParent)
+            dbRow.putNull("parentid");
+        else
+            dbRow.put("parentid", parentid);
         dbRow.put("taskname",taskname);
         dbRow.put("expected_enddate", expected_enddate);
         dbRow.put("completed_date", completed_date);
@@ -85,11 +91,17 @@ public class TaskDBAdapter {
     }
     public long insertTask(String taskname)
     {
-        return  insertTask(0, taskname,"","",0);
+        return  insertTask(0, taskname, "", "", 0);
     }
+
     public long insertTask(long parentid, String taskname, String expected_enddate, String completed_date, int completed_bool )
     {
-        return db.insert("task", null, getContent(parentid, taskname, expected_enddate, completed_date, completed_bool));
+        return db.insert("task", null, getContent(parentid, taskname, expected_enddate, completed_date, completed_bool, false));
+    }
+
+    public long insertParentTask(String taskname, String expected_enddate, String completed_date, int completed_bool )
+    {
+        return db.insert("task", null, getContent(0, taskname, expected_enddate, completed_date, completed_bool, true));
     }
 
     public Cursor getSubtasks(long parentid)
@@ -104,7 +116,14 @@ public class TaskDBAdapter {
     public void update(long id,long parentid, String taskname, String expected_enddate, String completed_date, int completed_bool)
     {
         db.update("task",
-                getContent(parentid, taskname, expected_enddate, completed_date, completed_bool),
+                getContent(parentid, taskname, expected_enddate, completed_date, completed_bool, false),
+                "id =" + id, null)  ;
+    }
+
+    public void update(long id,String taskname, String expected_enddate, String completed_date, int completed_bool, boolean isParent)
+    {
+        db.update("task",
+                getContent(id, taskname, expected_enddate, completed_date, completed_bool, true),
                 "id =" + id, null)  ;
     }
 
@@ -127,6 +146,15 @@ public class TaskDBAdapter {
         }
         return mCursor;
     }
+    public Cursor getParentTask() throws SQLException
+    {
+        Cursor mCursor = db.rawQuery("select * from task where   parentid=NULL;",null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
     public Cursor getAllTasks(long id) throws SQLException
     {
         Cursor mCursor = db.rawQuery("select distinct * from task where id =" +id +" or parentid=" + id +" order by id asc;",null);
@@ -137,6 +165,20 @@ public class TaskDBAdapter {
         return mCursor;
     }
 
+    public long getRecentParentid() throws SQLException
+    {
+        long parentid=0;
+        Cursor mCursor = db.rawQuery("select parentid from task where id =max(id) and parentid=NULL;",null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+            parentid = mCursor.getInt(0);
+        }
+        return parentid;
+    }
 
     public long getParentid(String taskname) throws SQLException
     {

@@ -46,9 +46,15 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             }
              db.open();
 
+            Cursor c = db.getAllData();
+            alert("get recent parent " + c.getCount());
+            if (c.moveToFirst())
+            alert("parent value is " + c.getLong( c.getColumnIndex("parentid")));
+            if (c != null)
+                DisplayParent(c);
+/*
+            Cursor c = db.getAllTasks( db.getRecentParentid());//db.getAllData();
 
-            Cursor c = db.getAllTasks(21);//db.getAllData();
-            alert("the amount of tasks are " + c.getCount());
             int ii=0;
             if (c.moveToFirst())
             {
@@ -58,7 +64,7 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
                 } while (c.moveToNext());
             }
 
-
+*/
            // db.close();*/
         }
         catch (Exception e)
@@ -68,7 +74,33 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
         }
      }
 
+    public void DisplayParent(Cursor c ) {
+        try
+        {
+            EditText txt_task;
+            TextView id_task;
+            CheckBox cb_task;
+            int i=0;
+            long id=0;
+            String taskname = "";
 
+            txt_task = (EditText)findViewById( getResources().getIdentifier(  "txt_task"+i, "id", getPackageName())  );
+            id_task = (TextView)findViewById( getResources().getIdentifier(  "id_task"+i, "id", getPackageName())  );
+              taskname = c.getString(c.getColumnIndex("taskname"))  ; //c.getString(2)
+
+
+                txt_task.setText(taskname);
+                id_task.setText(Integer.toString(c.getInt(0)));
+
+
+                    parentid=c.getInt(0);
+        }
+        catch(Exception e) {
+            Log.d("dataentry",e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
     public void DisplayTask(Cursor c, int i) {
         try
         {
@@ -108,9 +140,10 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             switch (view.getId())
             {
                 case R.id.btnSave:
-                     for (int i=0;  i <=5; i++) {
+                    saveParent();
+                     /*for (int i=0;  i <=5; i++) {
                          save(  i);
-                     }
+                     }*/
                     break;
                 case R.id.btnDelete:
                         db.deleteAllTasks();
@@ -180,6 +213,49 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
         }
         return boolValue;
     }
+
+    public void saveParent()
+    {
+        EditText txt_task;
+        TextView id_task;
+        CheckBox cb_task;
+        int i=0;
+        long id=0;
+
+        try
+        {
+            txt_task = (EditText) findViewById(getResources().getIdentifier("txt_task" + i, "id", getPackageName()));
+            id_task = (TextView) findViewById(getResources().getIdentifier("id_task" + i, "id", getPackageName()));
+            cb_task = (CheckBox) findViewById(getResources().getIdentifier("cb_task" + i, "id", getPackageName()));
+
+            if (isEmpty(txt_task))
+                alert("Please complete the parent goal");
+            else
+            {
+                if (!isEmpty(id_task))
+                    id = Long.valueOf(id_task.getText().toString());
+
+
+
+                    if (id == 0)
+                {
+                        id = db.insertParentTask(  txt_task.getText().toString(), "", "",  getIntValue(cb_task) );
+                        id_task.setText( Long.toString( id));
+                        parentid = id;
+                    } else
+                        db.update(parentid, txt_task.getText().toString(), "", "",   getIntValue(cb_task),true);
+
+
+
+                alert("saved");
+            }
+        }
+        catch(Exception e)
+        {
+            Log.d("dataentry",e.getMessage());
+            e.printStackTrace();
+        }
+    }
     public void save(int i)
     {
          EditText txt_task;
@@ -193,26 +269,11 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
             id_task = (TextView) findViewById(getResources().getIdentifier("id_task" + i, "id", getPackageName()));
             cb_task = (CheckBox) findViewById(getResources().getIdentifier("cb_task" + i, "id", getPackageName()));
 
-            if (isEmpty(txt_task))
-                alert("Please complete the goal at line " + i);
-            else
-                {
+
                     if (!isEmpty(id_task))
                         id = Long.valueOf(id_task.getText().toString());
 
-                  //  alert("id is " + id);
-                if (i == 0) {
 
-
-                    if (isEmpty(id_task)) {
-                        id = db.insertTask(00, txt_task.getText().toString(), "", "",  getIntValue(cb_task) );
-                        id_task.setText( Long.toString( id));
-                        parentid = id;
-                    } else
-                        db.update(parentid, 00, txt_task.getText().toString(), "", "",   getIntValue(cb_task));
-
-
-                } else {
                   /*  if (isEmpty(txt_task) && (!isEmpty(id_task))) {
                         db.deleteTask(Long.valueOf(id_task.getText().toString()));
                         id_task.setText("");
@@ -225,9 +286,9 @@ public class DataEntryScreen extends  Activity implements View.OnClickListener {
                         db.update(id, parentid, txt_task.getText().toString(), "", "",   getIntValue(cb_task));
                     }
 
-                }
+
                     alert("saved");
-            }
+
         }
         catch(Exception e)
         {
